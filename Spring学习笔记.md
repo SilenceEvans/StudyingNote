@@ -88,7 +88,7 @@ public void test01(){
           * <import resouce="classPath:num02.xml"/>
           * <import resouce="classPath:num03.xml"/>
     
-    都可以用<import resouce="classPath:num-*.xml"/>来代替,但要注意主文件不要也在通配符的包含范围之类。
+    都可以用import resouce="classPath:num-*.xml"/>来代替,但要注意主文件不要也在通配符的包含范围之类。
     
     ***注意:被加载的所有的文件应该与主配置文件在同一个目录下才能保证被加载****
 
@@ -122,6 +122,6 @@ public void test01(){
 
 * @Component (value = "对象名")
 
-  > * 创建对象的，等同于<bean/>
-  > * value就是对象名称，相当于<bean/>中的id
+  > * 创建对象的，等同于&ltbean/&gt
+  > * value就是对象名称，相当于&ltbean/&gt中的id
   > * value的值是唯一的，创建的对象在spring容器中只有一个
