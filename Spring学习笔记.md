@@ -122,6 +122,6 @@ public void test01(){
 
 * @Component (value = "对象名")
 
-  > * 创建对象的，等同于&ltbean/&gt
+  > * 创建对象的，等同于\<bean/\>
   > * value就是对象名称，相当于&ltbean/&gt中的id
   > * value的值是唯一的，创建的对象在spring容器中只有一个
