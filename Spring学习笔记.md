@@ -80,16 +80,15 @@ public void test01(){
   * 主文件一般不定义对象，用来包含其他文件
     * 语法：&lt import resource= "其他文件路径"/ &gt
     * 关键字："classPath"表示的是类路径，即编译输出的target目录下的classes目录的路径。
-    * 完整的示例：&ltimport resouce="classPath:****.xml"/&gt
+    * 完整的示例：\<import resouce="classPath:****.xml"/\>
     * 还可以使用通配符一次性加载所有功能相同的文件,如以下三个文件：
-      
-       * <import resouce="classPath:num01.xml"/>
-       
-          * <import resouce="classPath:num02.xml"/>
-          * <import resouce="classPath:num03.xml"/>
-    
-    都可以用import resouce="classPath:num-*.xml"/>来代替,但要注意主文件不要也在通配符的包含范围之类。
-    
+
+       * \<import resouce="classPath:num01.xml"/\>
+       * \<import resouce="classPath:num02.xml"/\>
+       * \<import resouce="classPath:num02.xml"/\>
+
+    都可以用\<import resouce="classPath:num-*.xml"/\>来代替,但要注意主文件不要也在通配符的包含范围之类。
+
     ***注意:被加载的所有的文件应该与主配置文件在同一个目录下才能保证被加载****
 
 ### 关于注解
@@ -101,6 +100,12 @@ public void test01(){
 ​	2.在类中加入spring的注解（多个不同功能的注解）。
 
 ​	3.在spring的配置文件中需要加入一个组件扫描，说明注解在项目中的位置。
+
+> 组件扫描器扫描多个包时的用法：
+>
+> * 配置多个组件扫描器标签
+> * 一个标签中用；或者，隔开
+> * 包名写成要扫描的多个包的父包（不建议用，因为会造成Spring启动过慢，扫描多个无用的包）
 
 ​	4.主要注解有：
 
@@ -123,5 +128,49 @@ public void test01(){
 * @Component (value = "对象名")
 
   > * 创建对象的，等同于\<bean/\>
-  > * value就是对象名称，相当于&ltbean/&gt中的id
+  > * value就是对象名称，相当于\<bean/\>中的id
   > * value的值是唯一的，创建的对象在spring容器中只有一个
+  > * 注解中只有value时，value这词可以省略
+  > * 不指定对象名称的时候，spring会默认一个对象名称，类名的小写
+
+* @Repository：放在持久层的注解，dao的实现类，也是创建对象的
+
+* @Service：用在业务层，还可控制事务，创建对象
+
+* @Controller：用在控制器层，创建对象
+
+    后三个除了能创建对象外还有额外的功能，是能给项目分层的。
+
+> **什么时候用component？**
+>
+> 当要创建的类既不属于controller，也不属于service和dao的时候
+
+* @Value：给类中的属性赋值，也可放在set方法上（用的比较少）
+
+    > @Value(value = "18")
+    >
+    > private int age;
+
+    引用类型的赋值
+
+* @Autowired：Spring使用时用到的是自动注入原理，默认是byType方法。使用时主要加在属性上。
+
+    > 注解的引用类型变量其类必须已经加了创建对象和属性赋值的相关注解（或者配置文件使用了相关的bean标签）
+    >
+    > 比如下面student类中有school类型的引用变量
+
+    ```java
+    student类：
+    @Autowired
+    private School school;
+    School 类：
+    @Component("value = school")
+    public School class{
+    ​		@Value (value = "**")
+    ​		private address;
+    }
+    ```
+
+#### 三、注解的原理
+
+配置文件中配置组件扫描器，扫描指定的包，包可以根据idea导入类的路径copy，包名千万不能写错。
